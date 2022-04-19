@@ -131,10 +131,9 @@
  * 
  */
 
-import java.util.Vector;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.Date;
+import java.util.*;
+import State.BowlingFrame;
+import State.ScoreCalculationState;
 
 public class Lane extends Thread implements PinsetterObserver {	
 	private Party party;
@@ -429,6 +428,19 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * @return			The bowlers total score
 	 */
+	private int getScore1(Bowler bowler, int frame){
+		int[] Scores = (int[]) scores.get(bowler);
+		ArrayList<BowlingFrame> frames = formatScoresToFrames(Scores);
+		ScoreCalculatingStateContext context = new ScoreCalculatingStateContext(frames);
+		int currTotal = context.calculateTotal();
+
+		int total = 0;
+		for (int i = 0; i < frames.size(); i++){
+			total += frames.get(i).getFrameScore();
+			cumulScores[bowlIndex][i] = total;
+		}
+		return currTotal;
+	}
 	private int getScore( Bowler Cur, int frame) {
 		int[] curScore;
 		int strikeballs = 0;
