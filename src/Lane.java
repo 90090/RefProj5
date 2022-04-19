@@ -428,10 +428,10 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * @return			The bowlers total score
 	 */
-	private int getScore1(Bowler bowler, int frame){
+	private int getScore(Bowler bowler, int frame){
 		int[] Scores = (int[]) scores.get(bowler);
-		ArrayList<BowlingFrame> frames = formatScoresToFrames(Scores);
-		ScoreCalculatingStateContext context = new ScoreCalculatingStateContext(frames);
+		ArrayList<BowlingFrame> frames = formatScores(Scores);
+		ScoreCalculationState context = new ScoreCalculationState(frames);
 		int currTotal = context.calculateTotal();
 
 		int total = 0;
@@ -441,6 +441,53 @@ public class Lane extends Thread implements PinsetterObserver {
 		}
 		return currTotal;
 	}
+
+	public static ArrayList<BowlingFrame> formatScores(int [] scores) {
+		ArrayList<BowlingFrame> frames = new ArrayList<>();
+
+		boolean createFrame = true;
+		BowlingFrame newFrame = new BowlingFrame(false);
+
+		for (int i = 0; i < 21; i++){
+			int score = scores[i];
+
+			if(createFrame){
+				if(i < 18) {
+					newFrame = new BowlingFrame(false);
+				} else {
+					newFrame = new BowlingFrame(true);
+				}
+				try {
+					newFrame.addRoll(score);
+				} catch(BowlingFrame.FrameException e) {
+					e.printStackTrace();
+				}
+
+				createFrame = false;
+			} else {
+				try {
+					newFrame.addRoll(score);
+
+					if(i < 20) {
+						frames.add(newFrame);
+					}
+				} catch(BowlingFrame.FrameException e) {
+					e.printStackTrace();
+				}
+				if(i < 18) {
+					createFrame = true;
+				}
+			}
+		}
+		return frames;
+	}
+
+	/**
+	 *
+	 * @param Cur
+	 * @param frame
+	 * @return
+
 	private int getScore( Bowler Cur, int frame) {
 		int[] curScore;
 		int strikeballs = 0;
@@ -545,7 +592,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			}
 		}
 		return totalScore;
-	}
+	}*/
 
 	/** isPartyAssigned()
 	 * 
