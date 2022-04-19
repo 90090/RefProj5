@@ -423,7 +423,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 *
 	 * Method that calculates a bowlers score
 	 * 
-	 * @param Cur		The bowler that is currently up
+	 * @param bowler		The bowler that is currently up
 	 * @param frame	The frame the current bowler is on
 	 * 
 	 * @return			The bowlers total score
@@ -444,15 +444,17 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	public static ArrayList<BowlingFrame> formatScores(int [] scores) {
 		ArrayList<BowlingFrame> frames = new ArrayList<>();
-
+		int MAX_BOWLS = 21;
 		boolean createFrame = true;
 		BowlingFrame newFrame = new BowlingFrame(false);
 
-		for (int i = 0; i < 21; i++){
+		//Run through every possible bowl (20) + 1 for the last frame
+		for (int i = 0; i < MAX_BOWLS; i++){
 			int score = scores[i];
 
 			if(createFrame){
-				if(i < 18) {
+				//if i is less than 18 so this will run till it gets to frame 9
+				if(i < (MAX_BOWLS - 3)) {
 					newFrame = new BowlingFrame(false);
 				} else {
 					newFrame = new BowlingFrame(true);
@@ -467,14 +469,15 @@ public class Lane extends Thread implements PinsetterObserver {
 			} else {
 				try {
 					newFrame.addRoll(score);
-
-					if(i < 20) {
+					//if it is the 2nd bowl on the last frame
+					if(i < (MAX_BOWLS) - 1) {
 						frames.add(newFrame);
 					}
 				} catch(BowlingFrame.FrameException e) {
 					e.printStackTrace();
 				}
-				if(i < 18) {
+				//create frames till we get to the 9th frame
+				if(i < (MAX_BOWLS - 3)) {
 					createFrame = true;
 				}
 			}
@@ -616,7 +619,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * Method that will add a subscriber
 	 * 
-	 * @param subscribe	Observer that is to be added
+	 * @param adding	Observer that is to be added
 	 */
 
 	public void subscribe( LaneObserver adding ) {
