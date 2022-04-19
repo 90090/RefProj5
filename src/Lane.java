@@ -457,6 +457,7 @@ public class Lane extends Thread implements PinsetterObserver {
 				if(i < (MAX_BOWLS - 3)) {
 					newFrame = new BowlingFrame(false);
 				} else {
+					//Now its the last frame so isLastFrame is true
 					newFrame = new BowlingFrame(true);
 				}
 				try {
