@@ -415,7 +415,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * @return		The new lane event
 	 */
 	private LaneEvent lanePublish(  ) {
-		LaneEvent laneEvent = new LaneEvent(party, bowlIndex, currentThrower, cumulScores, scores, frameNumber+1, curScores, ball, gameIsHalted);
+		LaneEvent laneEvent = new LaneEvent(this);
 		return laneEvent;
 	}
 
@@ -677,4 +677,55 @@ public class Lane extends Thread implements PinsetterObserver {
 		publish(lanePublish());
 	}
 
+	/**
+	 *
+	 * @return the party assigned to this lane
+	 */
+	public Party getParty() {
+		return party;
+	}
+
+	/**
+	 *
+	 * @return the current bowl index
+	 */
+	public int getBowlIndex() {
+		return bowlIndex;
+	}
+
+	/**
+	 *
+	 * @return the current bowler
+	 */
+	public Bowler getBowler() {
+		return currentThrower;
+	}
+
+	public int[][] getCumulScores() {
+		return cumulScores;
+	}
+
+	public int getBall() {
+		return ball;
+	}
+
+	public int getFrameNumber() {
+		return frameNumber;
+	}
+
+	public int[] getCurScores() {
+		return curScores;
+	}
+
+	public HashMap getScores() {
+		return scores;
+	}
+
+	public Bowler getCurrentThrower() {
+		return currentThrower;
+	}
+
+	public boolean getMechProblem() {
+		return this.gameIsHalted;
+	}
 }
