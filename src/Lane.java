@@ -144,7 +144,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	private boolean gameIsHalted;
 
 	private boolean partyAssigned;
-	private boolean gameFinished;
+	private GameState gameState;
 	private Iterator bowlerIterator;
 	private int ball;
 	private int bowlIndex;
@@ -189,7 +189,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	public void run() {
 		
 		while (true) {
-			if (partyAssigned && !gameFinished) {	// we have a party on this lane, 
+			if (partyAssigned && !gameFinished()) {	// we have a party on this lane,
 								// so next bower can take a throw
 			
 				while (gameIsHalted) {
@@ -215,7 +215,7 @@ public class Lane extends Thread implements PinsetterObserver {
 						try{
 						Date date = new Date();
 						String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
-						ScoreHistoryFile.addScore(currentThrower.getNick(), dateString, new Integer(cumulScores[bowlIndex][9]).toString());
+						ScoreHistoryFile.addScore(currentThrower.getNick(), dateString, String.valueOf(cumulScores[bowlIndex][9]));
 						} catch (Exception e) {System.err.println("Exception in addScore. "+ e );} 
 					}
 
@@ -228,11 +228,11 @@ public class Lane extends Thread implements PinsetterObserver {
 					resetBowlerIterator();
 					bowlIndex = 0;
 					if (frameNumber > 9) {
-						gameFinished = true;
+						this.gameState = GameState.COMPLETED;
 						gameNumber++;
 					}
 				}
-			} else if (partyAssigned && gameFinished) {
+			} else if (partyAssigned && gameFinished()) {
 				EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
 				int result = egp.getResult();
 				egp.distroy();
@@ -360,7 +360,7 @@ public class Lane extends Thread implements PinsetterObserver {
 		
 		
 		
-		gameFinished = false;
+		this.gameState = GameState.IN_PROGRESS;
 		frameNumber = 0;
 	}
 		
@@ -423,7 +423,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 *
 	 * Method that calculates a bowlers score
 	 * 
-	 * @param Cur		The bowler that is currently up
+	 * @param bowler		The bowler that is currently up
 	 * @param frame	The frame the current bowler is on
 	 * 
 	 * @return			The bowlers total score
@@ -608,15 +608,15 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * @return true if the game is done, false otherwise
 	 */
-	public boolean isGameFinished() {
-		return gameFinished;
+	public boolean gameFinished() {
+		return this.gameState == GameState.COMPLETED;
 	}
 
 	/** subscribe
 	 * 
 	 * Method that will add a subscriber
 	 * 
-	 * @param subscribe	Observer that is to be added
+	 * @param adding	Observer that is to be added
 	 */
 
 	public void subscribe( LaneObserver adding ) {
