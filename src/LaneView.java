@@ -10,6 +10,8 @@ import java.util.*;
 
 public class LaneView implements LaneObserver, ActionListener {
 
+	final int NUMBER_OF_SCORES = 21;
+
 	private int roll;
 	private boolean initDone = true;
 
@@ -165,33 +167,25 @@ public class LaneView implements LaneObserver, ActionListener {
 				for (int i = 0; i <= le.getFrameNum() - 1; i++) {
 					if (lescores[k][i] != 0)
 						scoreLabel[k][i].setText(
-							(new Integer(lescores[k][i])).toString());
+							(String.valueOf(lescores[k][i])));
 				}
-				for (int i = 0; i < 21; i++) {
-					if (((int[]) ((HashMap) le.getScore())
-						.get(bowlers.get(k)))[i]
-						!= -1)
-						if (((int[]) ((HashMap) le.getScore())
-							.get(bowlers.get(k)))[i]
-							== 10
-							&& (i % 2 == 0 || i == 19))
+				for (int i = 0; i < NUMBER_OF_SCORES; i++) {
+					if (((int[]) ((HashMap) le.getScore()).get(bowlers.get(k)))[i] != -1)
+						if (((int[]) ((HashMap) le.getScore()).get(bowlers.get(k)))[i] == 10 && (i % 2 == 0 || i == 19)) // its a strike
 							ballLabel[k][i].setText("X");
-						else if (
-							i > 0
-								&& ((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]
-									+ ((int[]) ((HashMap) le.getScore())
+						else if ( i > 0
+								&& ((int[]) ((HashMap) le.getScore()).get(bowlers.get(k)))[i] + ((int[]) ((HashMap) le.getScore())
 										.get(bowlers.get(k)))[i
 									- 1]
 									== 10
-								&& i % 2 == 1)
+								&& i % 2 == 1) // its a spare
 							ballLabel[k][i].setText("/");
 						else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
 							
 							ballLabel[k][i].setText("F");
 						} else
 							ballLabel[k][i].setText(
-								(new Integer(((int[]) ((HashMap) le.getScore())
+								(String.valueOf(((int[]) ((HashMap) le.getScore())
 									.get(bowlers.get(k)))[i]))
 									.toString());
 				}
