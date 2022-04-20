@@ -197,11 +197,8 @@ public class Lane extends Thread implements PinsetterObserver {
 						sleep(10);
 					} catch (Exception e) {}
 				}
-
-
 				if (bowlerIterator.hasNext()) {
 					currentThrower = (Bowler)bowlerIterator.next();
-
 					canThrowAgain = true;
 					tenthFrameStrike = false;
 					ball = 0;
@@ -209,7 +206,7 @@ public class Lane extends Thread implements PinsetterObserver {
 						setter.ballThrown();		// simulate the thrower's ball hiting
 						ball++;
 					}
-					
+
 					if (frameNumber == 9){
 						finalScores[bowlIndex][gameNumber] = cumulScores[bowlIndex][9];
 						try{
@@ -218,11 +215,8 @@ public class Lane extends Thread implements PinsetterObserver {
 						ScoreHistoryFile.addScore(currentThrower.getNick(), dateString, new Integer(cumulScores[bowlIndex][9]).toString());
 						} catch (Exception e) {System.err.println("Exception in addScore. "+ e );} 
 					}
-
-					
 					setter.reset();
 					bowlIndex++;
-					
 				} else {
 					frameNumber++;
 					resetBowlerIterator();
@@ -237,15 +231,13 @@ public class Lane extends Thread implements PinsetterObserver {
 				int result = egp.getResult();
 				egp.distroy();
 				egp = null;
-				
-				
+
 				System.out.println("result was: " + result);
 				
 				// TODO: send record of scores to control desk
 				if (result == 1) {					// yes, want to play again
 					resetScores();
 					resetBowlerIterator();
-					
 				} else if (result == 2) {// no, dont want to play another game
 					Vector printVector;	
 					EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
