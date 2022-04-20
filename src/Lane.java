@@ -641,7 +641,7 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	public void publish( LaneEvent event ) {
 		if( subscribers.size() > 0 ) {
-			Iterator eventIterator = subscribers.iterator();
+			Iterator eventIterator = (Iterator) subscribers.iterator();
 			
 			while ( eventIterator.hasNext() ) {
 				( (LaneObserver) eventIterator.next()).receiveLaneEvent( event );
