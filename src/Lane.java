@@ -226,7 +226,7 @@ public class Lane extends Thread implements PinsetterObserver {
 						gameNumber++;
 					}
 				}
-			} else if (partyAssigned && gameFinished) {
+			} else if (partyAssigned) {
 				EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
 				int result = egp.getResult();
 				egp.distroy();
