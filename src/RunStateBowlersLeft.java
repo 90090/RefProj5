@@ -29,6 +29,11 @@ public class RunStateBowlersLeft extends RunState {
     }
 
     @Override
+    public void setState(RunState state) {
+        //squash
+    }
+
+    @Override
     public void bowlFrame() {
         Bowler currentThrower = (Bowler) this.bowlerIterator.next();
         int ball = 0;

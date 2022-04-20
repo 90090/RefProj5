@@ -676,4 +676,24 @@ public class Lane extends Thread implements PinsetterObserver {
 	public int getFrameNumber(){
 		return this.frameNumber;
 	}
+
+	public Bowler getCurrentThrower(){
+		return this.currentThrower;
+	}
+
+	public int getBowlIndex(){
+		return this.bowlIndex;
+	}
+
+	public int[][] getFinalScores(){
+		return this.finalScores;
+	}
+
+	public int getGameNumber(){
+		return this.gameNumber;
+	}
+
+	public int[][] getCumulScores(){
+		return this.cumulScores;
+	}
 }
