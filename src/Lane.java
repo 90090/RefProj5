@@ -197,7 +197,7 @@ public class Lane extends Thread implements PinsetterObserver {
 						sleep(10);
 					} catch (Exception e) {}
 				}
-				if (bowlerIterator.hasNext()) {
+				if (bowlerIterator.hasNext()) { // while there are bowlers to go
 					currentThrower = (Bowler)bowlerIterator.next();
 					canThrowAgain = true;
 					tenthFrameStrike = false;
