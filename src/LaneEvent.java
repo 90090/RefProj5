@@ -47,7 +47,7 @@ public class LaneEvent {
 		curScores = lane.getCurScores();
 		frameNum = lane.getFrameNumber()+1;
 		ball = lane.getBall();
-		mechProb = lane.getGameState() == GameState.HALTED;
+		mechProb = (lane.getGameState() == GameState.HALTED);
 	}
 	
 	public boolean isMechanicalProblem() {
