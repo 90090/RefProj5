@@ -65,10 +65,24 @@ public abstract class PinStates {
 
     }
 
+    /**
+     * the abstract class that each state will override to add the score per their condition
+     * @param scoreToAdd
+     */
     public abstract void updatePrevScoreFirstRoll(int scoreToAdd);
 
+    /**
+     * the abstract class that each state will override to add the score per their condition
+     * @param scoreToAdd
+     */
     public abstract void updatePrevScoreSecondRoll(int scoreToAdd);
 
+    /**
+     * gets all the rolls from the given frame
+     * @param frame frame that contains the rolls
+     * @param roll the type of roll being unwrapped
+     * @return
+     */
     public int unwrapRoll(BowlingFrame frame, BowlingFrame.RollEnum roll) {
         try {
             switch (roll) {
