@@ -134,7 +134,6 @@
 import java.util.*;
 import State.BowlingFrame;
 import State.ScoreCalculationState;
-import RunState.*;
 
 public class Lane extends Thread implements PinsetterObserver {	
 	private Party party;
@@ -670,4 +669,11 @@ public class Lane extends Thread implements PinsetterObserver {
 		publish(lanePublish());
 	}
 
+	public Iterator getBowlerIterator(){
+		return this.bowlerIterator;
+	}
+
+	public int getFrameNumber(){
+		return this.frameNumber;
+	}
 }

@@ -1,8 +1,8 @@
 
 
 public abstract class RunState {
-
-    private Lane lane;
+    protected Lane lane;
+    protected RunState state;
 
     public RunState(Lane lane) {
         this.lane = lane;
