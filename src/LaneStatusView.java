@@ -105,7 +105,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 				if ( !psShowing ) {
 					psv.show();
 					psShowing=true;
-				} else if ( psShowing ) {
+				} else {
 					psv.hide();
 					psShowing=false;
 				}
@@ -116,7 +116,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 				if ( !laneShowing ) {
 					lv.show();
 					laneShowing=true;
-				} else if ( laneShowing ) {
+				} else  {
 					lv.hide();
 					laneShowing=false;
 				}
