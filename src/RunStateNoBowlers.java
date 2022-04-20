@@ -1,6 +1,9 @@
-package RunState;
+public class RunStateNoBowlers extends RunState {
 
-public class NoBowlersLeftState implements RunState {
+    public RunStateNoBowlers(Lane lane) {
+        super(lane);
+    }
+
     @Override
     public void setState() {
 

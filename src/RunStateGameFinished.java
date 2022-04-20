@@ -1,9 +1,14 @@
-package RunState;
+public class RunStateGameFinished extends RunState {
+    public RunStateGameFinished(Lane lane) {
+        super(lane);
+    }
 
-public class GameFinished implements RunState {
     @Override
     public void setState() {
 
+        // will not change if the result is not play again
+
+        // will change if the result is to play again
     }
 
     @Override
