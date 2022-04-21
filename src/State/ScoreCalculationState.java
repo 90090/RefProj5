@@ -16,11 +16,18 @@ public class ScoreCalculationState {
         this.frames = frames;
     }
 
+    /**
+     * sets the state as a new concrete state
+     * @param newState concrete state that will update the current state
+     */
     public void setState(PinStates newState) {
         state = newState;
     }
 
-    //Calculates total of all active frames
+    /**
+     * calculates the total of all active frames
+     * @return total score
+     */
     public int calculateTotal(){
         setState(new NormalState(this));
         int total = 0;

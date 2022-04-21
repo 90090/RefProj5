@@ -6,6 +6,10 @@ package State;
 
 public class NormalState extends PinStates{
 
+    /**
+     * Normal state is handled through other classes
+     * @param context
+     */
     public NormalState(ScoreCalculationState context) {
         super(context, null, null);
     }

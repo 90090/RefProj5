@@ -88,8 +88,6 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 
 		jp.add( cLabel );
 		jp.add( curBowler );
-//		jp.add( fLabel );
-//		jp.add( foul );
 		jp.add( pdLabel );
 		jp.add( pinsDown );
 		
@@ -104,10 +102,10 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 	public void actionPerformed( ActionEvent e ) {
 		if ( lane.isPartyAssigned() ) { 
 			if (e.getSource().equals(viewPinSetter)) {
-				if ( psShowing == false ) {
+				if ( !psShowing ) {
 					psv.show();
 					psShowing=true;
-				} else if ( psShowing == true ) {
+				} else {
 					psv.hide();
 					psShowing=false;
 				}
@@ -115,10 +113,10 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		}
 		if (e.getSource().equals(viewLane)) {
 			if ( lane.isPartyAssigned() ) { 
-				if ( laneShowing == false ) {
+				if ( !laneShowing ) {
 					lv.show();
 					laneShowing=true;
-				} else if ( laneShowing == true ) {
+				} else  {
 					lv.hide();
 					laneShowing=false;
 				}
@@ -147,8 +145,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 	}
 
 	public void receivePinsetterEvent(PinsetterEvent pe) {
-		pinsDown.setText( ( new Integer(pe.totalPinsDown()) ).toString() );
-//		foul.setText( ( new Boolean(pe.isFoulCommited()) ).toString() );
+		pinsDown.setText( ( String.valueOf(pe.totalPinsDown()) ));
 		
 	}
 
