@@ -328,7 +328,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * @pre the party as been assigned
 	 * @post the iterator points to the first bowler in the party
 	 */
-	private void resetBowlerIterator() {
+	public void resetBowlerIterator() {
 		bowlerIterator = (party.getMembers()).iterator();
 	}
 
@@ -695,5 +695,9 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	public int[][] getCumulScores(){
 		return this.cumulScores;
+	}
+
+	public int getResult(){
+		return this.getResult();
 	}
 }

@@ -12,6 +12,11 @@ public class RunStateGameFinished extends RunState {
     }
 
     @Override
+    public void setState(RunState state) {
+
+    }
+
+    @Override
     public void bowlFrame() {
 
     }
