@@ -13,6 +13,6 @@ public class Drive {
 
 		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty);
 		controlDesk.subscribe( cdv );
-
+		//test
 	}
 }
