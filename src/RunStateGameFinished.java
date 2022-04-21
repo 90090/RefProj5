@@ -1,6 +1,18 @@
+import java.util.Iterator;
+import java.util.Vector;
+
 public class RunStateGameFinished extends RunState {
+    Vector printVector;
+    EndGameReport egr;
+    boolean partyAssigned;
+    Iterator scoreIt;
+    Party party;
+    int gameNumber;
+    int[][] finalScores;
+
     public RunStateGameFinished(Lane lane) {
         super(lane);
+        finalScores = lane.getFinalScores();
     }
 
     @Override
@@ -18,11 +30,34 @@ public class RunStateGameFinished extends RunState {
 
     @Override
     public void bowlFrame() {
+        Vector printVector;
+        EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
+        printVector = egr.getResult();
+        partyAssigned = false;
+        Iterator scoreIt = party.getMembers().iterator();
+        party = null;
+        partyAssigned = false;
 
+        lane.publish(lane.lanePublish());
+
+        int myIndex = 0;
+        while (scoreIt.hasNext()){
+            Bowler thisBowler = (Bowler)scoreIt.next();
+            ScoreReport sr = new ScoreReport( thisBowler, finalScores[myIndex++], gameNumber );
+            sr.sendEmail(thisBowler.getEmail());
+            Iterator printIt = printVector.iterator();
+            while (printIt.hasNext()){
+                if (thisBowler.getNick() == (String)printIt.next()){
+                    System.out.println("Printing " + thisBowler.getNick());
+                    sr.sendPrintout();
+                }
+            }
+
+        }
     }
     // what to do when the game is finished
 
-    /*
+    /*(gamefinished)
      else if (partyAssigned) {
         EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
         int result = egp.getResult();
@@ -30,37 +65,5 @@ public class RunStateGameFinished extends RunState {
         egp = null;
 
         System.out.println("result was: " + result);
-
-        // TODO: send record of scores to control desk
-        if (result == 1) {					// yes, want to play again
-            resetScores();
-            resetBowlerIterator();
-        } else if (result == 2) {// no, dont want to play another game
-            Vector printVector;
-            EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
-            printVector = egr.getResult();
-            partyAssigned = false;
-            Iterator scoreIt = party.getMembers().iterator();
-            party = null;
-            partyAssigned = false;
-
-            publish(lanePublish());
-
-            int myIndex = 0;
-            while (scoreIt.hasNext()){
-                Bowler thisBowler = (Bowler)scoreIt.next();
-                ScoreReport sr = new ScoreReport( thisBowler, finalScores[myIndex++], gameNumber );
-                sr.sendEmail(thisBowler.getEmail());
-                Iterator printIt = printVector.iterator();
-                while (printIt.hasNext()){
-                    if (thisBowler.getNick() == (String)printIt.next()){
-                        System.out.println("Printing " + thisBowler.getNick());
-                        sr.sendPrintout();
-                    }
-                }
-
-            }
-        }
-     }
      */
 }
