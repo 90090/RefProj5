@@ -39,6 +39,28 @@ public class PartyIterator implements Iterator{
                     scoreLabel[b][i].setText(String.valueOf(Integer.valueOf(scores[b][i])));
                 }
             }
+            //for all frames, 1-20, get the score for that frame and update gui label
+            for (int f = 0; f < 21; f++) {
+                int curScore = ((int[]) (event.getScore()).get(bowlers.get(b)))[f];
+                if (curScore != -1) {
+                    if (curScore == 10 && (f % 2 == 0 || f == 19)) {
+                        //if strike and frame is first of turn or 19th frame
+                        ballLabel[b][f].setText("X");
+                    } else if (f > 0 && curScore + ((int[]) (event.getScore()).get(bowlers.get(b)))[f - 1] == 10 && f % 2 == 1) {
+                        //if two frames score add up to 10, meaning spare
+                        ballLabel[b][f].setText("/");
+                    }
+                    else if (curScore == -2) {
+                        //should not reach
+                        System.out.println("Set to F");
+                        ballLabel[b][f].setText("F");
+                    } else {
+                        //update gui label with score, no special state
+                        ballLabel[b][f].setText((new Integer(curScore)).toString());
+                    }
+                }
+            }
+            b++;
 
         }
 

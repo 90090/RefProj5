@@ -412,8 +412,18 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * @return		The new lane event
 	 */
-	private LaneEvent lanePublish(  ) {
-		LaneEvent laneEvent = new LaneEvent(this);
+	public LaneEvent lanePublish() {
+		LaneEvent laneEvent = new LaneEvent(
+				party,
+				bowlIndex,
+				currentGame.getCurrentThrower(),
+				cumulScores,
+				scores,
+				frameNumber+1,
+				curScores,
+				currentGame.getBall(),
+				!(currentGame.getState() instanceof HaltedGameState)
+		);
 		return laneEvent;
 	}
 
