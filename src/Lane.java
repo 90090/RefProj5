@@ -137,7 +137,7 @@ import State.ScoreCalculationState;
 
 public class Lane extends Thread implements PinsetterObserver {	
 	private Party party;
-	private Pinsetter setter;
+	public Pinsetter setter;
 	private HashMap scores;
 	private Vector subscribers;
 
@@ -193,16 +193,18 @@ public class Lane extends Thread implements PinsetterObserver {
 
 		while (true) {
 			if (partyAssigned) {
-				System.out.println("THE PARTY GOT ASSIGNED" + this.party.getMembers().toString());
 				RunState state = new RunStateBowlersLeft((this));
-				while (gameIsHalted) {
-					try {
-						sleep(10);
-					} catch (Exception e) {
+				while (true) {
+					while (gameIsHalted) {
+						try {
+							sleep(10);
+						} catch (Exception e) {
+						}
 					}
+					System.out.println(party.getMembers().size());
+					state.bowlFrame();
 				}
-				System.out.println(party.getMembers().size());
-				state.bowlFrame();
+
 			}
 			try {
 				sleep(10);
@@ -733,5 +735,29 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	public int getResult() {
 		return this.result;
+	}
+
+	public void setFrameNumber(int frameNumber) {
+		this.frameNumber = frameNumber;
+	}
+
+	public void setBowlIndex(int bowlIndex) {
+		this.bowlIndex = bowlIndex;
+	}
+
+	public void setGameNumber(int gameNumber) {
+		this.gameNumber = gameNumber;
+	}
+
+	public void setBall(int ball) {
+		this.ball = ball;
+	}
+
+	public void setCanThrowAgain(boolean canThrowAgain) {
+		this.canThrowAgain = canThrowAgain;
+	}
+
+	public void setTenthFrameStrike(boolean tenthFrameStrike) {
+		this.tenthFrameStrike = tenthFrameStrike;
 	}
 }

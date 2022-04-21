@@ -26,12 +26,18 @@ public class RunStateNoBowlers extends RunState {
 
     @Override
     public void bowlFrame() {
-        frameNumber++;
+        this.frameNumber++;
+        lane.setFrameNumber(this.frameNumber);
+
         lane.resetBowlerIterator();
         bowlIndex = 0;
+        lane.setBowlIndex(this.bowlIndex);
         if (frameNumber > 9) {
-            gameFinished = true;
             gameNumber++;
+            lane.setGameNumber(this.gameNumber);
+            setState(new RunStateGameFinished(lane));
+        } else {
+            setState(new RunStateBowlersLeft(lane));
         }
 
         if(result == 1){
