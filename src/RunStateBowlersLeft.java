@@ -50,6 +50,5 @@ public class RunStateBowlersLeft extends RunState {
         }
         setter.reset();
         bowlIndex++;
-
     }
 }
