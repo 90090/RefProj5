@@ -20,6 +20,7 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 
 import java.util.*;
+import java.util.Iterator;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
@@ -76,10 +77,10 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		finishedPanel.add(finished);
 		controlsPanel.add(finishedPanel);
 
-		// Lane Status Panel
+		// Lanes.Lanes Status Panel
 		JPanel laneStatusPanel = new JPanel();
 		laneStatusPanel.setLayout(new GridLayout(numLanes, 1));
-		laneStatusPanel.setBorder(new TitledBorder("Lane Status"));
+		laneStatusPanel.setBorder(new TitledBorder("Lanes Status"));
 
 		HashSet lanes=controlDesk.getLanes();
 		Iterator it = lanes.iterator();
@@ -90,11 +91,11 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 			curLane.subscribe(laneStat);
 			((Pinsetter)curLane.getPinsetter()).subscribe(laneStat);
 			JPanel lanePanel = laneStat.showLane();
-			lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount ));
+			lanePanel.setBorder(new TitledBorder("Lanes" + ++laneCount ));
 			laneStatusPanel.add(lanePanel);
 		}
 
-		// Party Queue Panel
+
 		JPanel partyPanel = new JPanel();
 		partyPanel.setLayout(new FlowLayout());
 		partyPanel.setBorder(new TitledBorder("Party Queue"));
@@ -107,9 +108,9 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		partyList.setVisibleRowCount(10);
 		JScrollPane partyPane = new JScrollPane(partyList);
 		partyPane.setVerticalScrollBarPolicy(
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		partyPanel.add(partyPane);
-		//		partyPanel.add(partyList);
+
 
 		// Clean up main panel
 		colPanel.add(controlsPanel, "East");
@@ -130,8 +131,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		// Center Window on Screen
 		Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
 		win.setLocation(
-			((screenSize.width) / 2) - ((win.getSize().width) / 2),
-			((screenSize.height) / 2) - ((win.getSize().height) / 2));
+				((screenSize.width) / 2) - ((win.getSize().width) / 2),
+				((screenSize.height) / 2) - ((win.getSize().height) / 2));
 		win.show();
 
 	}
@@ -175,6 +176,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	 */
 
 	public void receiveControlDeskEvent(ControlDeskEvent ce) {
-		partyList.setListData(((Vector) ce.getPartyQueue()));
+		Vector cast = new Vector();
+		cast.addAll(ce.getPartyQueue());
+		partyList.setListData(cast);
 	}
 }
