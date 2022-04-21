@@ -37,19 +37,23 @@ public class RunStateBowlersLeft extends RunState {
 
     @Override
     public void bowlFrame() {
-        currentThrower = (Bowler) this.bowlerIterator.next();
-        ball = 0;
-        canThrowAgain = true;
-        tenthFrameStrike = false;
-        while (canThrowAgain) {
-            setter.ballThrown();		// simulate the thrower's ball hiting
-            ball++;
+        if (!bowlerIterator.hasNext()) {
+            setState(new RunStateNoBowlers(lane));
+        } else {
+            currentThrower = (Bowler) this.bowlerIterator.next();
+            ball = 0;
+            canThrowAgain = true;
+            tenthFrameStrike = false;
+            while (canThrowAgain) {
+                setter.ballThrown();        // simulate the thrower's ball hiting
+                ball++;
+            }
+            if (frameNumber == 9) {
+                setState();
+            }
+            setter.reset();
+            bowlIndex++;
         }
-        if(frameNumber == 9){
-            setState();
-        }
-        setter.reset();
-        bowlIndex++;
 
     }
 }
