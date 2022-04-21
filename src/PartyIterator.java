@@ -23,6 +23,7 @@ public class PartyIterator implements Iterator{
         return bowlers.get(index++);
     }
 
+    //updates gui labels given with information from bowlers in iterator
     @Override
     public void process(LaneEvent event, JLabel[][] ballLabel, JLabel[][] scoreLabel) {
         int[][] scores = event.getCumulScore();
@@ -30,5 +31,16 @@ public class PartyIterator implements Iterator{
         int b = 0;
 
         //run through each bowler's frames and update ballLabel with score, b is number of current bowler
+        while (this.hasNext()) {
+            currentBowler = (Bowler) this.next();
+            //for all frames that have happened, calculate cumulative score and update gui label, f is frame number
+            for(int i = 0; i <= event.getFrameNum() - 1; i++) {
+                if(scores[b][i] != 0) { // if score in frame is not 0
+                    scoreLabel[b][i].setText(String.valueOf(Integer.valueOf(scores[b][i])));
+                }
+            }
+
+        }
+
     }
 }
