@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.Iterator;
 
 public class RunStateBowlersLeft extends RunState {
@@ -9,6 +10,9 @@ public class RunStateBowlersLeft extends RunState {
     int bowlIndex;
     int frameNumber;
     int ball;
+    int[][] finalScores;
+    int gameNumber;
+    int[][] cumulScores;
 
     public RunStateBowlersLeft(Lane lane) {
 
@@ -18,6 +22,9 @@ public class RunStateBowlersLeft extends RunState {
         bowlIndex = lane.getBowlIndex();
         setter = lane.getPinsetter();
         frameNumber = lane.getFrameNumber();
+        finalScores = lane.getFinalScores();
+        gameNumber = lane.getGameNumber();
+        cumulScores = lane.getCumulScores();
 
     }
     // how to perform when there are more bowlers to bowl in the current frame
@@ -52,8 +59,18 @@ public class RunStateBowlersLeft extends RunState {
                     ball++;
                     lane.setBall(this.ball);
                 }
+                /*
                 if (frameNumber == 9) {
                     setState();
+                }*/
+                if (frameNumber == 9){
+                    finalScores[bowlIndex][gameNumber] = cumulScores[bowlIndex][9];
+                    lane.setFinalScores(this.finalScores);
+                    try{
+                        Date date = new Date();
+                        String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
+                        ScoreHistoryFile.addScore(currentThrower.getNick(), dateString, String.valueOf(cumulScores[bowlIndex][9]));
+                    } catch (Exception e) {System.err.println("Exception in addScore. "+ e );}
                 }
                 lane.setter.reset();
                 bowlIndex++;

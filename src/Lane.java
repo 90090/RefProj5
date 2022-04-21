@@ -760,4 +760,8 @@ public class Lane extends Thread implements PinsetterObserver {
 	public void setTenthFrameStrike(boolean tenthFrameStrike) {
 		this.tenthFrameStrike = tenthFrameStrike;
 	}
+
+	public void setFinalScores(int[][] finalScores) {
+		this.finalScores = finalScores;
+	}
 }
