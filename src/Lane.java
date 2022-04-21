@@ -188,6 +188,25 @@ public class Lane extends Thread implements PinsetterObserver {
 	 */
 	public void run() {
 
+		while (true) {
+			if (partyAssigned) {
+				System.out.println("THE PARTY GOT ASSIGNED" + this.party.getMembers().toString());
+				RunState state = new RunStateBowlersLeft((this));
+				while (gameIsHalted) {
+					try {
+						sleep(10);
+					} catch (Exception e) {
+					}
+				}
+				state.bowlFrame();
+			}
+			try {
+				sleep(10);
+			} catch (Exception e) {}
+
+		}
+
+		/*
 		if (partyAssigned) {
 			System.out.println("THE PARTY GOT ASSIGNED" + this.party.getMembers().toString());
 			RunState state = new RunStateBowlersLeft(this);
@@ -205,6 +224,8 @@ public class Lane extends Thread implements PinsetterObserver {
 			}
 
 		}
+		*/
+
 
 
 		/*
