@@ -25,6 +25,7 @@ public class RunStateGameFinished extends RunState {
     @Override
     public void setState(RunState newState) {
         state = newState;
+        lane.setRunState(state);
     }
 
     @Override

@@ -32,6 +32,7 @@ public class RunStateLastFrame extends RunState {
     @Override
     public void setState(RunState newState) {
         state = newState;
+        lane.setRunState(state);
     }
 
     @Override

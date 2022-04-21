@@ -32,16 +32,17 @@ public class RunStateBowlersLeft extends RunState {
     @Override
     public void setState() {
         state = new RunStateLastFrame(lane);
+        lane.setRunState(state);
     }
 
     @Override
     public void setState(RunState newState) {
         state = newState;
+        lane.setRunState(state);
     }
 
     @Override
     public void bowlFrame() {
-        while (true) {
             if (!bowlerIterator.hasNext()) {
                 setState(new RunStateNoBowlers(lane));
             } else {
@@ -54,26 +55,18 @@ public class RunStateBowlersLeft extends RunState {
                 lane.setCanThrowAgain(this.canThrowAgain);
                 tenthFrameStrike = false;
                 lane.setTenthFrameStrike(this.tenthFrameStrike);
-                while (canThrowAgain) {
+                while (ball < 2) {
                     lane.setter.ballThrown();        // simulate the thrower's ball hiting
                     ball++;
-                    lane.setBall(this.ball);
-                    lane.setter.reset();
                 }
-                if (frameNumber == 9){
-                    finalScores[bowlIndex][gameNumber] = cumulScores[bowlIndex][9];
-                    lane.setFinalScores(this.finalScores);
-                    try{
-                        Date date = new Date();
-                        String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
-                        ScoreHistoryFile.addScore(currentThrower.getNick(), dateString, String.valueOf(cumulScores[bowlIndex][9]));
-                    } catch (Exception e) {System.err.println("Exception in addScore. "+ e );}
+                if (frameNumber == 9) {
+                    setState();
                 }
                 lane.setter.reset();
                 bowlIndex++;
                 lane.setBowlIndex(this.bowlIndex);
             }
-        }
+
 
 
     }

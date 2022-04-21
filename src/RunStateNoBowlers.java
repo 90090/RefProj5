@@ -22,10 +22,12 @@ public class RunStateNoBowlers extends RunState {
     @Override
     public void setState(RunState newState) {
         state = newState;
+        lane.setRunState(state);
     }
 
     @Override
     public void bowlFrame() {
+        System.out.println("CALLED THE RIGHT FUNCTION");
         this.frameNumber++;
         lane.setFrameNumber(this.frameNumber);
 
@@ -37,7 +39,9 @@ public class RunStateNoBowlers extends RunState {
             lane.setGameNumber(this.gameNumber);
             setState(new RunStateGameFinished(lane));
         } else {
+            lane.setter.reset();
             setState(new RunStateBowlersLeft(lane));
+
         }
 
         if(result == 1){

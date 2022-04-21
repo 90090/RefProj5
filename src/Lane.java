@@ -161,6 +161,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	private int result; // if the player would like to play again or not
 	
 	private Bowler currentThrower;			// = the thrower who just took a throw
+	private RunState runState;
 
 	/** Lane()
 	 * 
@@ -193,7 +194,7 @@ public class Lane extends Thread implements PinsetterObserver {
 
 		while (true) {
 			if (partyAssigned) {
-				RunState state = new RunStateBowlersLeft((this));
+				runState = new RunStateBowlersLeft((this));
 				while (true) {
 					while (gameIsHalted) {
 						try {
@@ -201,8 +202,8 @@ public class Lane extends Thread implements PinsetterObserver {
 						} catch (Exception e) {
 						}
 					}
-					System.out.println(party.getMembers().size());
-					state.bowlFrame();
+					System.out.println(runState);
+					runState.bowlFrame();
 				}
 
 			}
@@ -763,5 +764,13 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	public void setFinalScores(int[][] finalScores) {
 		this.finalScores = finalScores;
+	}
+
+	public RunState getRunState() {
+		return runState;
+	}
+
+	public void setRunState(RunState runState) {
+		this.runState = runState;
 	}
 }
