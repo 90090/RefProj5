@@ -11,7 +11,9 @@ public class RunStateBowlersLeft extends RunState {
     int ball;
 
     public RunStateBowlersLeft(Lane lane) {
+
         super(lane);
+        System.out.println("NEW BOWLERS LEFT STATE HAS BEEN CREATED");
         bowlerIterator = lane.getBowlerIterator();
         bowlIndex = lane.getBowlIndex();
         setter = lane.getPinsetter();
@@ -32,24 +34,33 @@ public class RunStateBowlersLeft extends RunState {
 
     @Override
     public void bowlFrame() {
-        if (!bowlerIterator.hasNext()) {
-            setState(new RunStateNoBowlers(lane));
-        } else {
-            this.currentThrower = (Bowler)this.bowlerIterator.next();
-            lane.setCurrentThrower(this.currentThrower);
-            ball = 0;
-            canThrowAgain = true;
-            tenthFrameStrike = false;
-            while (canThrowAgain) {
-                setter.ballThrown();        // simulate the thrower's ball hiting
-                ball++;
+        while (true) {
+            if (!bowlerIterator.hasNext()) {
+                setState(new RunStateNoBowlers(lane));
+            } else {
+                this.currentThrower = (Bowler) this.bowlerIterator.next();
+
+                lane.setCurrentThrower(this.currentThrower);
+                ball = 0;
+                lane.setBall(this.ball);
+                canThrowAgain = true;
+                lane.setCanThrowAgain(this.canThrowAgain);
+                tenthFrameStrike = false;
+                lane.setTenthFrameStrike(this.tenthFrameStrike);
+                while (canThrowAgain) {
+                    lane.setter.ballThrown();        // simulate the thrower's ball hiting
+                    ball++;
+                    lane.setBall(this.ball);
+                }
+                if (frameNumber == 9) {
+                    setState();
+                }
+                lane.setter.reset();
+                bowlIndex++;
+                lane.setBowlIndex(this.bowlIndex);
             }
-            if (frameNumber == 9) {
-                setState();
-            }
-            setter.reset();
-            bowlIndex++;
         }
+
 
     }
 }
