@@ -339,7 +339,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * @pre the party has been assigned
 	 * @post scoring system is initialized
 	 */
-	private void resetScores() {
+	public void resetScores() {
 		Iterator bowlIt = (party.getMembers()).iterator();
 
 		while ( bowlIt.hasNext() ) {
