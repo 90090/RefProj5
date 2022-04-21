@@ -5,16 +5,18 @@ public class RunStateBowlersLeft extends RunState {
     Boolean canThrowAgain;
     Boolean tenthFrameStrike;
     Pinsetter setter;
+    Bowler currentThrower;
     int bowlIndex;
     int frameNumber;
+    int ball;
 
     public RunStateBowlersLeft(Lane lane) {
         super(lane);
         bowlerIterator = lane.getBowlerIterator();
-        canThrowAgain = true;
-        tenthFrameStrike = false;
+        bowlIndex = lane.getBowlIndex();
         setter = lane.getPinsetter();
         frameNumber = lane.getFrameNumber();
+
     }
     // how to perform when there are more bowlers to bowl in the current frame
 
@@ -29,14 +31,16 @@ public class RunStateBowlersLeft extends RunState {
     }
 
     @Override
-    public void setState(RunState state) {
-        //squash
+    public void setState(RunState newState) {
+        state = newState;
     }
 
     @Override
     public void bowlFrame() {
-        Bowler currentThrower = (Bowler) this.bowlerIterator.next();
-        int ball = 0;
+        currentThrower = (Bowler) this.bowlerIterator.next();
+        ball = 0;
+        canThrowAgain = true;
+        tenthFrameStrike = false;
         while (canThrowAgain) {
             setter.ballThrown();		// simulate the thrower's ball hiting
             ball++;
@@ -46,5 +50,6 @@ public class RunStateBowlersLeft extends RunState {
         }
         setter.reset();
         bowlIndex++;
+
     }
 }

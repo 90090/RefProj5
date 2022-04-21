@@ -187,7 +187,26 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * entry point for execution of this lane 
 	 */
 	public void run() {
-		
+
+		if (partyAssigned) {
+			while (true) {
+
+				while (gameIsHalted) {
+					try {
+						sleep(10);
+					} catch (Exception e) {
+					}
+				}
+				RunState state = new RunStateBowlersLeft(this);
+				state.bowlFrame();
+			}
+
+		}
+		try {
+			sleep(10);
+		} catch (Exception e) {}
+
+		/*
 		while (true) {
 			if (partyAssigned && !gameFinished) {	// we have a party on this lane, 
 								// so next bower can take a throw
@@ -271,6 +290,7 @@ public class Lane extends Thread implements PinsetterObserver {
 				sleep(10);
 			} catch (Exception e) {}
 		}
+		*/
 	}
 	
 	/** recievePinsetterEvent()
