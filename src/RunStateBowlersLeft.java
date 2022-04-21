@@ -58,11 +58,8 @@ public class RunStateBowlersLeft extends RunState {
                     lane.setter.ballThrown();        // simulate the thrower's ball hiting
                     ball++;
                     lane.setBall(this.ball);
+                    lane.setter.reset();
                 }
-                /*
-                if (frameNumber == 9) {
-                    setState();
-                }*/
                 if (frameNumber == 9){
                     finalScores[bowlIndex][gameNumber] = cumulScores[bowlIndex][9];
                     lane.setFinalScores(this.finalScores);

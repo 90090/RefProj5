@@ -4,6 +4,7 @@ public abstract class RunState {
     protected Lane lane;
     protected RunState state;
 
+
     public RunState(Lane lane) {
         this.lane = lane;
     }
