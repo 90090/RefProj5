@@ -3,3 +3,5 @@
 /.idea/workspace.xml
 *.class
 out/
+production/
+RefProj5/
