@@ -227,7 +227,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	public void receivePinsetterEvent(PinsetterEvent pe) {
 
 		if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
-			markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
+			markScore(currentGame.getCurrentThrower(), frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
 
 			// next logic handles the ?: what conditions dont allow them another throw?
 			// handle the case of 10th frame first
@@ -239,7 +239,7 @@ public class Lane extends Thread implements PinsetterObserver {
 					}
 				}
 
-				if ((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && !tenthFrameStrike)) {
+				if ((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && tenthFrameStrike == false)) {
 					canThrowAgain = false;
 					//publish( lanePublish() );
 				}
@@ -263,17 +263,6 @@ public class Lane extends Thread implements PinsetterObserver {
 		}
 	}
 
-	/**
-	 * resetBowlerIterator()
-	 * <p>
-	 * sets the current bower iterator back to the first bowler
-	 *
-	 * @pre the party as been assigned
-	 * @post the iterator points to the first bowler in the party
-	 */
-	private void resetBowlerIterator() {
-		bowlerIterator = (Iterator) (party.getMembers()).iterator();
-	}
 
 	/**
 	 * resetScores()
@@ -315,6 +304,8 @@ public class Lane extends Thread implements PinsetterObserver {
 		gameNumber = 0;
 
 		resetScores();
+
+		this.interrupt(); //Party assigned so interrupt the thread
 	}
 
 	/**
@@ -336,7 +327,7 @@ public class Lane extends Thread implements PinsetterObserver {
 
 		curScore[index - 1] = score;
 		scores.put(Cur, curScore);
-		getScore(Cur);
+		getScore(Cur, frame);
 		publish(lanePublish());
 	}
 
@@ -368,9 +359,10 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * Method that calculates a bowlers score
 	 *
 	 * @param bowler The bowler that is currently up
+	 * @param frame
 	 * @return The bowlers total score
 	 */
-	private int getScore(Bowler bowler) {
+	private int getScore(Bowler bowler, int frame) {
 		int[] Scores = (int[]) scores.get(bowler);
 		ArrayList<BowlingFrame> frames = formatScores(Scores);
 		ScoreCalculationState context = new ScoreCalculationState(frames);
