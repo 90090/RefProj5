@@ -20,11 +20,6 @@ public class RunStateBowlersLeft extends RunState {
     }
     // how to perform when there are more bowlers to bowl in the current frame
 
-    /**
-     * checks the bowlerIterator to see what should happen next
-     */
-    public void checkNext() {}
-
     @Override
     public void setState() {
         state = new RunStateLastFrame(lane);
@@ -40,7 +35,8 @@ public class RunStateBowlersLeft extends RunState {
         if (!bowlerIterator.hasNext()) {
             setState(new RunStateNoBowlers(lane));
         } else {
-            currentThrower = (Bowler) this.bowlerIterator.next();
+            this.currentThrower = (Bowler)this.bowlerIterator.next();
+            lane.setCurrentThrower(this.currentThrower);
             ball = 0;
             canThrowAgain = true;
             tenthFrameStrike = false;

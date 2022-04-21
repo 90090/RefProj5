@@ -157,6 +157,8 @@ public class Lane extends Thread implements PinsetterObserver {
 	
 	private int[][] finalScores;
 	private int gameNumber;
+
+	private int result; // if the player would like to play again or not
 	
 	private Bowler currentThrower;			// = the thrower who just took a throw
 
@@ -188,6 +190,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 */
 	public void run() {
 
+
 		while (true) {
 			if (partyAssigned) {
 				System.out.println("THE PARTY GOT ASSIGNED" + this.party.getMembers().toString());
@@ -198,6 +201,7 @@ public class Lane extends Thread implements PinsetterObserver {
 					} catch (Exception e) {
 					}
 				}
+				System.out.println(party.getMembers().size());
 				state.bowlFrame();
 			}
 			try {
@@ -205,27 +209,6 @@ public class Lane extends Thread implements PinsetterObserver {
 			} catch (Exception e) {}
 
 		}
-
-		/*
-		if (partyAssigned) {
-			System.out.println("THE PARTY GOT ASSIGNED" + this.party.getMembers().toString());
-			RunState state = new RunStateBowlersLeft(this);
-
-			while (true) {
-
-				while (gameIsHalted) {
-					try {
-						sleep(10);
-					} catch (Exception e) {
-					}
-				}
-
-				state.bowlFrame();
-			}
-
-		}
-		*/
-
 
 
 		/*
@@ -313,6 +296,8 @@ public class Lane extends Thread implements PinsetterObserver {
 			} catch (Exception e) {}
 		}
 		*/
+
+
 	}
 	
 	/** recievePinsetterEvent()
@@ -411,8 +396,11 @@ public class Lane extends Thread implements PinsetterObserver {
 		party = theParty;
 		resetBowlerIterator();
 		partyAssigned = true;
-		
+
+		System.out.println("THE PARTY SIZE RIGHT NOW IS " + party.getMembers().size());
 		curScores = new int[party.getMembers().size()];
+
+
 		cumulScores = new int[party.getMembers().size()][10];
 		finalScores = new int[party.getMembers().size()][128]; //Hardcoding a max of 128 games, bite me.
 		gameNumber = 0;
@@ -739,7 +727,11 @@ public class Lane extends Thread implements PinsetterObserver {
 		return this.cumulScores;
 	}
 
-	public int getResult(){
-		return this.getResult();
+	public void setCurrentThrower(Bowler currentThrower) {
+		this.currentThrower = currentThrower;
+	}
+
+	public int getResult() {
+		return this.result;
 	}
 }
